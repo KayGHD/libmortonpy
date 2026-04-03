@@ -14,7 +14,7 @@ include(FetchContent)
 FetchContent_Declare(
     libmorton
     GIT_REPOSITORY https://github.com/Forceflow/libmorton.git
-    GIT_TAG        main
+    GIT_TAG        v0.2.12
     GIT_SHALLOW    TRUE
 )
 
@@ -30,5 +30,19 @@ nanobind_add_module(
 )
 
 target_link_libraries(_morton PRIVATE libmorton::libmorton)
+
+# --- BMI2 intrinsics (opt out with -DMORTON_USE_BMI2=OFF) ---
+option(MORTON_USE_BMI2 "Enable BMI2 instructions for faster Morton codes" ON)
+if(MORTON_USE_BMI2)
+    if(MSVC)
+        target_compile_options(_morton PRIVATE /arch:AVX2)
+    else()
+        include(CheckCXXCompilerFlag)
+        check_cxx_compiler_flag("-mbmi2" HAS_BMI2)
+        if(HAS_BMI2)
+            target_compile_options(_morton PRIVATE -mbmi2)
+        endif()
+    endif()
+endif()
 
 install(TARGETS _morton LIBRARY DESTINATION libmorton)

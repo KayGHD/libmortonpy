@@ -14,12 +14,18 @@ Vectorized functions (numpy/cupy arrays, magic-bits method):
     morton2D_64_decode_array(morton)  -> (x_array, y_array)
 """
 
-from libmorton._morton import (
-    morton2D_32_encode,
-    morton2D_64_encode,
-    morton2D_32_decode,
-    morton2D_64_decode,
-)
+try:
+    from libmorton._morton import (
+        morton2D_32_encode,
+        morton2D_64_encode,
+        morton2D_32_decode,
+        morton2D_64_decode,
+    )
+except ImportError:
+    raise ImportError(
+        "libmorton C++ extension not found. "
+        "Reinstall with: pip install libmorton-python"
+    )
 
 from libmorton._vectorized import (
     morton2D_32_encode as morton2D_32_encode_array,

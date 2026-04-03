@@ -1,4 +1,5 @@
 #include <cstdint>
+#include <stdexcept>
 #include <tuple>
 
 #include <nanobind/nanobind.h>
@@ -18,6 +19,9 @@ NB_MODULE(_morton, m) {
 
     m.def("morton2D_32_encode",
         [](uint32_t x, uint32_t y) -> uint32_t {
+            if (x > 0xFFFFu || y > 0xFFFFu)
+                throw std::invalid_argument(
+                    "x and y must be <= 65535 for 32-bit Morton encoding");
             return static_cast<uint32_t>(
                 libmorton::morton2D_32_encode(
                     static_cast<uint_fast16_t>(x),

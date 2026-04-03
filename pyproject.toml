@@ -6,9 +6,33 @@ build-backend = "scikit_build_core.build"
 name = "libmorton-python"
 version = "0.1.0"
 description = "Python bindings for libmorton Morton code encoding/decoding"
+readme = "README.md"
 requires-python = ">=3.12"
 license = {text = "MIT"}
+authors = [{name = "Jackson Davis"}]
+keywords = ["morton", "z-order", "space-filling-curve", "numpy"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: C++",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: Mathematics",
+]
+dependencies = ["numpy>=1.24"]
+
+[project.optional-dependencies]
+cuda = ["cupy-cuda12x"]
+dev = ["pytest>=7.0"]
+
+[project.urls]
+Repository = "https://github.com/KayGHD/libmorton-python"
+Issues = "https://github.com/KayGHD/libmorton-python/issues"
 
 [tool.scikit-build]
 cmake.build-type = "Release"
 wheel.packages = ["src/libmorton"]
+sdist.exclude = ["CLAUDE.md", ".claude/"]

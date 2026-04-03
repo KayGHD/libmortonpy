@@ -41,6 +41,12 @@ def _compact_bits_32(v, xp):
     return v.astype(xp.uint16)
 
 
+def _check_range(arr, max_val, name, xp):
+    """Raise ValueError if any element exceeds max_val."""
+    if arr.size > 0 and xp.any(arr > max_val):
+        raise ValueError(f"{name} values must be <= {max_val}")
+
+
 def morton2D_32_encode(x, y):
     """Encode arrays of 2D coordinates into 32-bit Morton codes.
 
@@ -54,6 +60,10 @@ def morton2D_32_encode(x, y):
     Works with numpy and cupy arrays.
     """
     xp = _get_xp(x, y)
+    x = xp.asarray(x, dtype=xp.uint32)
+    y = xp.asarray(y, dtype=xp.uint32)
+    _check_range(x, 0xFFFF, "x", xp)
+    _check_range(y, 0xFFFF, "y", xp)
     return _spread_bits_32(x, xp) | (_spread_bits_32(y, xp) << xp.uint32(1))
 
 
