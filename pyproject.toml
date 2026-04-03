@@ -29,8 +29,8 @@ cuda = ["cupy-cuda12x"]
 dev = ["pytest>=7.0"]
 
 [project.urls]
-Repository = "https://github.com/KayGHD/libmorton-python"
-Issues = "https://github.com/KayGHD/libmorton-python/issues"
+Repository = "https://github.com/KayGHD/libmortonpy"
+Issues = "https://github.com/KayGHD/libmortonpy/issues"
 
 [tool.scikit-build]
 cmake.build-type = "Release"
